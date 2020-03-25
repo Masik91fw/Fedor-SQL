@@ -76,3 +76,6 @@ Select Top 5 ProductID From [Order Details] Group by ProductID Order by count (P
 Select ProductID, ProductName from [dbo].[Products]
 where ProductID in (Select Top 5 ProductID From [Order Details] Group by ProductID Order by count (ProductID) desc)
 order by ProductID desc
+
+
+Створно Git Hub репозиторий
