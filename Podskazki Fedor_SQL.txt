@@ -1,0 +1,78 @@
+like - содржит
+'' - берется все текстовые значения
+% - любое к-во любых символов
+Desc - от большего к меншему
+/*where (_____<='___' OR _____<='__')
+AND ___>=__*/ - правильная последовательность запроса с OR\AND
+IN ('','') - правильная последовательность
+ where NOT (PostalCode <='98401' And Extension <=3360) - забирает это значение из списка, и ли забирает условие
+ 
+ 
+SELECT TOP (1000) [EmployeeID]
+      ,[LastName]    
+      ,[BirthDate]
+      ,[HireDate]
+      ,[Address]
+      ,[PostalCode]     
+      ,[Extension]     
+FROM [Northwind].[dbo].[Employees]
+--where HireDate >='1993-01-01 00:00:00.000'
+where year(HireDate) >=1993
+and Address like '%4%'
+order by MONTH(HireDate) desc 
+ 
+ Метасимволи:
+ 
+ where LastName like '[D,B,C]%' - отобразит имена начинаю. на D,B,C
+ where LastName like '%[D,B,C]%' - отобразит имена включающ. буквы D,B,C
+ where LastName like '%[^D,B,C]%' -  отобразит имена НЕ включающ. буквы D,B,C
+ 
+ 
+ SELECT max(UnitPrice)
+FROM [Northwind].[dbo].[Products] WITH (NOLOCK)
+ 
+ антиблок дл я таблиц в якы постйно подаються даны
+ 
+ 
+ SELECT count(*)
+FROM [Northwind].[dbo].[Customers]
+where region is not null
+
+
+SELECT COUNT(DISTINCT UnitPrice) - удаляет дубликаты даных из нужного листа запроса
+
+
+----------исп переменных
+
+ declare @UnitPrice float
+ set @UnitPrice = 84
+
+ SELECT [UnitPrice]
+ FROM [Northwind].[dbo].[Products]
+ where UnitPrice > @UnitPrice
+ order by [UnitPrice] asc
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  SELECT DISTINCT TOP 20  UnitPrice
+ From Products 
+
+ order by UnitPrice desc
+ 
+ 
+ ЗАдаНие - з заковиркой
+ 
+ вывести самые 5 популярные товары 
+--1) посчитать к-во товаров по покупкам в чеках / dbo.ordersDetails -> группировка по товарам и их count (товаров)  -> топ 5 
+--2) из Products с фильтром товары из п.1*/
+
+--подзапрос
+Select Top 5 ProductID From [Order Details] Group by ProductID Order by count (ProductID) desc
+--запрос
+Select ProductID, ProductName from [dbo].[Products]
+where ProductID in (Select Top 5 ProductID From [Order Details] Group by ProductID Order by count (ProductID) desc)
+order by ProductID desc
