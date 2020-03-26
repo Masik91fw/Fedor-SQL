@@ -116,6 +116,7 @@ where LastName = 'abra-kad'
 
 
 
+select getdate - серверное имя
 
 
 
